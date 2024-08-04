@@ -48,11 +48,11 @@ pip install -r requirements.txt
 
 ## Set up environment variables
 
-Copy .env variables
+Copy your .env variables
 
 ### Edit the .env file and add your API keys:
 
-CopyAZURE_API_KEY=your_azure_translator_api_key
+AZURE_API_KEY=your_azure_translator_api_key
 GROQ_API_KEY=your_groq_api_key
 
 ### Running the ProjectStart the Streamlit app
