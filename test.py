@@ -10,25 +10,38 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-from dotenv import load_dotenv
-load_dotenv()
+import dotenv
+
+dotenv.load_dotenv()
+
 import os
 
 # Streamlit APP setup
-st.set_page_config(page_title="LangChain: Summarize Dutch YouTube Video", page_icon="🦜")
-st.title("🦜 LangChain:  Summarize Dutch YouTube Video")
+st.set_page_config(page_title="LangChain: Summarize YouTube Video", page_icon="🦜")
+st.title("🦜 LangChain:  Summarize YouTube Video")
 st.subheader('Enter YouTube URL')
 
-# Get the Groq API Key and YouTube URL
-groq_api_key = os.getenv("GROQ_API_KEY")
 youtube_url = st.text_input("YouTube URL", label_visibility="collapsed")
 
+st.subheader('Choose a language')
+st.markdown("*from*")
+from_language = st.text_input("from language", label_visibility="collapsed")
+from_language = str(from_language).lower()
+
+st.markdown("*to*")
+
+to_language = st.text_input("to language", label_visibility="collapsed")
+to_language = str(to_language).lower()
 # Azure Translator setup
-subscription_key = os.getenv("AZURE_API_KEY")
+
+
+
+groq_api_key = os.environ.get("GROQ_API_KEY")
+subscription_key = os.environ.get("AZURE_API_KEY")
 endpoint = 'https://api.cognitive.microsofttranslator.com/translate'
 region = 'westeurope'
 
-def translate_text(text, from_lang='nl', to_lang='en'):
+def translate_text(text, from_lang=from_language, to_lang=to_language):
     body = [{'text': text}]
     params = {
         'api-version': '3.0',
@@ -74,7 +87,7 @@ if st.button("Summarize Video"):
         try:
             with st.spinner("Summarizing..."):
                 video_id = re.search(r"v=([^&]+)", youtube_url).group(1)
-                transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['nl'])
+                transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=[from_language])
                 combined_text = ' '.join(segment['text'] for segment in transcript if 'text' in segment).strip()
                 translated_text = translate_text(combined_text)
                 summary = summarize_text(translated_text)
