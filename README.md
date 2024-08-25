@@ -80,21 +80,27 @@ The summary is displayed in a structured format on the web interface.
 
 #### Running the Application
 
-1. Clone the repository:
+#### Clone the repository:
 
-   ```bash
+   ```
    git clone https://github.com/Savoyevatel/Dutch-video-summarization.git
    cd Dutch-video-summarization
-Build the Docker image:
 
-bash
-Copy code
+   ```
+   
+#### Build the Docker image:
+
+   ```
 docker build -t dutch_yt .
-Run the Docker container:
+   ```
 
-bash
-Copy code
+#### Run the Docker container:
+
+   ```
 docker run -d -p 8501:8501 dutch_yt
+   ```
+
+
 Access the application in your web browser at http://localhost:8501.
 
 ### Deployed version
